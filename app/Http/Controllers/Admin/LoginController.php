@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\loginAdmin;
+use App\Http\Requests\loginAdminPost;
 use App\Models\Admin;
 
 class LoginController extends Controller
@@ -15,7 +15,7 @@ class LoginController extends Controller
         return view('admin.login.index', $data);
     }
 
-    public function handleLogin(loginAdmin $request, Admin $admin)
+    public function login(loginAdminPost $request, Admin $admin)
     {
         // dd($request->all());
         $username = $request->input('username');

@@ -8,7 +8,7 @@ class Order extends Model
 {
     protected $table = 'orders';
 
-    public $timestamp = false;
+    public $timestamps = false;
 
     public function customer()
     {

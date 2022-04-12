@@ -8,7 +8,7 @@ class Tag extends Model
 {
     protected $table = 'tags';
 
-    public $timestamp = false;
+    public $timestamps = false;
 
     public function products()
     {

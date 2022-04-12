@@ -8,7 +8,7 @@ class Size extends Model
 {
     protected $table = 'sizes';
 
-    public $timestamp = false;
+    public $timestamps = false;
 
     public function products()
     {

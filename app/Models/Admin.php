@@ -9,7 +9,7 @@ class Admin extends Model
 {
     protected $table = 'admins';
 
-    public $timestamp = false;
+    public $timestamps = false;
 
     public function checkLoginAdmin($username = null, $password = null)
     {

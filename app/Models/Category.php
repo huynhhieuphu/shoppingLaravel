@@ -8,7 +8,7 @@ class Category extends Model
 {
     protected $table = 'categories';
 
-    public $timestamp = false;
+    public $timestamps = false;
 
     public function products()
     {

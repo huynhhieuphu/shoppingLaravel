@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class loginAdmin extends FormRequest
+class loginAdminPost extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,12 +32,12 @@ class loginAdmin extends FormRequest
     public function messages()
     {
         return [
-            'username.required' => 'Bắt buộc nhập trường username',
-            'username.alpha_dash' => 'username phải chứa ký tự, số, gạch ngang và gạch dưới',
+            'username.required' => 'Username không được để trống',
+            'username.alpha_dash' => 'Username cho phép chứa chữ, số, dấu gạch ngang và dấu gạch dưới',
             'username.min' => 'Username nhập ít nhất :min ký tự',
             'username.max' => 'Username nhập nhiều nhất :max ký tự',
-            'password.required' => 'Bắt buộc nhập trường password',
-            'password.alpha_num' => 'Password phải chứa ký tự và số',
+            'password.required' => 'Password không được để trống',
+            'password.alpha_num' => 'Password cho phép chứa chữ và số',
             'password.min' => 'Password nhập ít nhất :min ký tự'
         ];
     }

@@ -8,7 +8,7 @@ class Product extends Model
 {
     protected $table = 'products';
 
-    public $timestamp = false;
+    public $timestamps = false;
 
     public function brand()
     {
