@@ -34,4 +34,12 @@ class Brand extends Model
         }
         return false;
     }
+
+    public function deleteBrand($id = 0)
+    {
+        $brand = Brand::find($id);
+        // return $brand->delete();
+        $brand->status = 0;
+        return $brand->save();
+    }
 }

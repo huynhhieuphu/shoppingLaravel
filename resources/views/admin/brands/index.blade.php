@@ -23,7 +23,7 @@
   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
     <div class="card">
       <div class="card-header">
-        <a href="{{ route('admin.brand.create') }}" class="btn btn-success">Add Brand</a>
+        <a href="{{ route('admin.brand.create') }}" class="btn btn-sm btn-success">Add Brand</a>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
@@ -31,64 +31,43 @@
           <thead>
             <tr>
               <th style="width: 10px">#</th>
-              <th>Task</th>
-              <th>Progress</th>
-              <th style="width: 40px">Label</th>
+              <th style="width: 80px">Image</th>
+              <th>Brand</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1.</td>
-              <td>Update software</td>
-              <td>
-                <div class="progress progress-xs">
-                  <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                </div>
-              </td>
-              <td><span class="badge bg-danger">55%</span></td>
-            </tr>
-            <tr>
-              <td>2.</td>
-              <td>Clean database</td>
-              <td>
-                <div class="progress progress-xs">
-                  <div class="progress-bar bg-warning" style="width: 70%"></div>
-                </div>
-              </td>
-              <td><span class="badge bg-warning">70%</span></td>
-            </tr>
-            <tr>
-              <td>3.</td>
-              <td>Cron job running</td>
-              <td>
-                <div class="progress progress-xs progress-striped active">
-                  <div class="progress-bar bg-primary" style="width: 30%"></div>
-                </div>
-              </td>
-              <td><span class="badge bg-primary">30%</span></td>
-            </tr>
-            <tr>
-              <td>4.</td>
-              <td>Fix and squish bugs</td>
-              <td>
-                <div class="progress progress-xs progress-striped active">
-                  <div class="progress-bar bg-success" style="width: 90%"></div>
-                </div>
-              </td>
-              <td><span class="badge bg-success">90%</span></td>
-            </tr>
+            @foreach ($brands as $brand)
+              <tr>
+                <td>{{ $brand->id }}</td>
+                <td>
+                  <img src="{{ asset('admins/uploads/images/' . $brand->image) }}" 
+                  alt="{{ $brand->image }}"
+                  style="width: 80px">
+                </td>
+                <td>{{ $brand->name }}</td>
+                <td style="width: 100px; text-align: center;">
+                  @if ($brand->status === 1)
+                    <a href="" class="btn btn-sm btn-secondary">Actived</a>
+                  @else
+                    <a href="" class="btn btn-sm btn-default">Deactive</a>
+                  @endif
+                </td>
+                <td style="width: 140px; text-align: center;">
+                  <a href="javascript:void(0);" 
+                  class="btn btn-sm btn-danger btnDelete" 
+                  data-id="{{ $brand->id }}">Delete</a>
+                  <a href="" class="btn btn-sm btn-primary">Edit</a>
+                </td>
+              </tr>
+            @endforeach
           </tbody>
         </table>
       </div>
       <!-- /.card-body -->
       <div class="card-footer clearfix">
-        <ul class="pagination pagination-sm m-0 float-right">
-          <li class="page-item"><a class="page-link" href="#">«</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">»</a></li>
-        </ul>
+        {{ $brands->links() }}
       </div>
     </div>
   </div>
@@ -96,3 +75,40 @@
 <!-- /.row -->
 @endsection
 
+@push('script')
+  <script>
+      let urlDelBrand = "{{ route('admin.brand.delete') }}";
+  </script>
+  <script>
+    $(document).ready(function(){
+      $('.btnDelete').on('click', function(){
+        let self = $(this); // lấy ra element đang được chọn
+        if(confirm('Ban co chac xoa?')){
+          // lấy ra data
+          let brandId = self.data('id');
+          // check data
+          if($.isNumeric(brandId)){
+            $.ajax({
+              url: urlDelBrand,
+              data: {
+                id: brandId
+              },
+              method: 'POST',
+              beforeSend : function() {
+                self.text('Loading...').parent().width('150px');
+              },
+              success : function(result) {
+                if(result == 'success') {
+                  alert(result);
+                  window.location.reload();
+                  self.text('Delete').parent().width('140px');
+                }
+              }
+            });
+          }
+        }
+      });
+    });
+    
+  </script>
+@endpush

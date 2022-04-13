@@ -6,16 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreBrandPost;
 use Illuminate\Http\Request;
 use App\Models\Brand;
-
+use Illuminate\Support\Facades\DB;
 class BrandController extends Controller
 {
-    public function __construct()
-    {
+    protected $brand;
 
+    public function __construct(Brand $brand)
+    {
+        $this->brand = $brand;
     }
 
     public function index()
     {
+        $data = [];
+        $data['brands'] = DB::table('brands')
+                        ->orderBy('created_at', 'DESC')
+                        ->orderBy('status' , 'ASC')
+                        ->simplePaginate(2);
         $data['title'] = 'Brands';
         return view('admin.brands.index', $data);
     }
@@ -75,8 +82,15 @@ class BrandController extends Controller
 
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-
+        $brandId = $request->id;
+        $brandId = is_numeric($brandId) && $brandId > 0 ? $brandId : 0;
+        
+        $del = $this->brand->deleteBrand($brandId);
+        if($del){
+            return 'success';
+        }
+        return 'error';
     }
 }

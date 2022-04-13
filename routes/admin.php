@@ -24,6 +24,6 @@ Route::group([
         Route::post('brand/store', 'BrandController@store')->name('brand.store'); // action add
         Route::get('brand/edit/{slug}-{id}', 'BrandController@edit')->name('brand.edit'); // form edit item
         Route::post('brand/update/{id}', 'BrandController@update')->name('brand.update'); // action update
-        Route::post('brand/delete/{id}', 'BrandController@delete')->name('brand.delete'); // action delete
+        Route::post('brand/delete', 'BrandController@delete')->name('brand.delete'); // action delete
     });
 });
