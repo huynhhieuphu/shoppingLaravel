@@ -49,9 +49,15 @@
                 <td>{{ $brand->name }}</td>
                 <td style="width: 100px; text-align: center;">
                   @if ($brand->status === 1)
-                    <a href="" class="btn btn-sm btn-secondary">Actived</a>
+                    <a href="javascript:void(0)" 
+                    class="btn btn-sm btn-secondary isActive" 
+                    data-id="{{ $brand->id }}"
+                    data-status="0">Actived</a>
                   @else
-                    <a href="" class="btn btn-sm btn-default">Deactive</a>
+                    <a href="javascript:void(0)" 
+                    class="btn btn-sm btn-default isActive"
+                    data-id="{{ $brand->id }}"
+                    data-status="1">Deactive</a>
                   @endif
                 </td>
                 <td style="width: 140px; text-align: center;">
@@ -78,37 +84,7 @@
 @push('script')
   <script>
       let urlDelBrand = "{{ route('admin.brand.delete') }}";
+      let IsActiveBrand = "{{ route('admin.brand.is.active') }}";
   </script>
-  <script>
-    $(document).ready(function(){
-      $('.btnDelete').on('click', function(){
-        let self = $(this); // lấy ra element đang được chọn
-        if(confirm('Ban co chac xoa?')){
-          // lấy ra data
-          let brandId = self.data('id');
-          // check data
-          if($.isNumeric(brandId)){
-            $.ajax({
-              url: urlDelBrand,
-              data: {
-                id: brandId
-              },
-              method: 'POST',
-              beforeSend : function() {
-                self.text('Loading...').parent().width('150px');
-              },
-              success : function(result) {
-                if(result == 'success') {
-                  alert(result);
-                  window.location.reload();
-                  self.text('Delete').parent().width('140px');
-                }
-              }
-            });
-          }
-        }
-      });
-    });
-    
-  </script>
+  <script src="{{ asset('admins/js/admin/brands.js') }}"></script>
 @endpush

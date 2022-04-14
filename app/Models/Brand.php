@@ -29,10 +29,7 @@ class Brand extends Model
             'created_at' => date('Y-m-d H:i:s')
         ]);
 
-        if($brand) {
-            return true;
-        }
-        return false;
+        return $brand;
     }
 
     public function deleteBrand($id = 0)
@@ -40,6 +37,21 @@ class Brand extends Model
         $brand = Brand::find($id);
         // return $brand->delete();
         $brand->status = 0;
+        $brand->updated_at = date('Y-m-d H:i:s');
         return $brand->save();
+    }
+
+    public function changeStatus($id = 0, $status = -1)
+    {
+        $result = false;
+        if($id > 0 && $status > -1) {
+            $result = Brand::where('id', $id)
+                        ->update([
+                            'status' => $status, 
+                            'updated_at' => date('Y-m-d H:i:s')
+                        ]);
+        }
+
+        return $result;
     }
 }

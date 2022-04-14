@@ -93,4 +93,22 @@ class BrandController extends Controller
         }
         return 'error';
     }
+
+    public function isActive(Request $request)
+    {
+        // kiểm tra xử lý phải bằng ajax không?
+        if($request->ajax())
+        {
+            $brandId = $request->brandId;
+            $brandId = is_numeric($brandId) && $brandId > 0 ? $brandId : 0;
+            $brandStatus = $request->brandStatus;
+            $brandStatus = $brandStatus == 1 || $brandStatus == 0 ? $brandStatus : -1;
+
+            $isActive = $this->brand->changeStatus($brandId, $brandStatus); // 1 kich hoat, 0 khong kich hoat
+            if($isActive){
+                return json_encode(['state' => 'success', 'status' => $brandStatus]);
+            }
+            return json_encode(['state' => 'error', 'status' => []]);
+        }
+    }
 }
